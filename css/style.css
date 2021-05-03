@@ -1,0 +1,177 @@
+* {
+    box-sizing: border-box;
+    font-family: inherit;
+    line-height: 1.5;
+}
+
+@font-face {
+    font-family: OpenSans;
+    src: url('../fonts/OpenSans-Regular.ttf');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: OpenSansCondensed;
+    src: url('../fonts/OpenSansCondensed-Light.ttf');
+    font-weight: 400;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+}
+
+.header {
+    margin: auto;
+    margin-top: 50px;
+    width: max-content;
+}
+.header__button{
+    display: inline-block;
+    font-family: OpenSansCondensed;
+    padding: 10px 20px;
+    background: #f9f9f9;
+    border: 1px solid #d5d5d5;
+    color: #0173c7;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.header__button:hover {
+    background: #ececec;
+    border: 1px solid #cfcfcf;
+    color: #0460a1;
+}
+
+.header__display {
+    display: inline-block;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 800;
+    margin: 0 20px;
+    padding: 10px;
+    color: #0173c7;
+    font-size: 30px;
+    line-height: 35px;
+}
+
+.header__timer {
+    margin-right: 20px;
+}
+
+.header__timer::after {
+    content: " ";
+    vertical-align: middle;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    background: url(../images/timer-blue.png);
+    background-size: contain;
+}
+
+.header__counter {
+    margin-left: 20px;
+}
+
+.header__counter::before {
+    content: " ";
+    vertical-align: middle;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    background: url(../images/flag-blue.png);
+    background-size: contain;
+}
+
+.main {
+    position: relative;
+    margin-top: 40px;
+}
+
+.field {
+    margin: auto;
+    width: 721px;
+    height: 561px;
+    border-top: 1px solid #d5d5d5;
+    border-left: 1px solid #d5d5d5;
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 40px;
+    text-align: center;
+}
+
+.field-blocker {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%);
+    width: 721px;
+    height: 561px;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.field__sector {
+    display: block;
+    float: left;
+    width: 40px;
+    height: 40px;
+    background: #f9f9f9;
+    border-right: 1px solid #d5d5d5;
+    border-bottom: 1px solid #d5d5d5;
+}
+
+.field__sector-closed {
+    background: #e2e2e2;
+    cursor: pointer;
+}
+
+.field__sector-closed:hover {
+    background: #c0c0c0;
+}
+
+.field__sector-1 {
+    color: #4580BA;
+}
+
+.field__sector-2 {
+    color: #559950;
+}
+
+.field__sector-3 {
+    color: #AB2B2A;
+}
+
+.field__sector-4 {
+    color: #6E0F83;
+}
+
+.field__sector-5 {
+    color: #F48E12;
+}
+
+.field__sector-6 {
+    color: #00c4ff;
+}
+
+.field__sector-7 {
+    color: #424242;
+}
+
+.field__sector-8 {
+    color: #7D8B98;
+}
+
+.field__sector-flag, .field__sector-flag:hover {
+    background: #e2e2e2 url(../images/flag.png) center no-repeat;
+    background-size: 30px 30px;
+}
