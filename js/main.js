@@ -1,65 +1,71 @@
 /**
- * Sector
- *  status: 0 - пусто, 1 - мина
- *  opened: 0 - закрыто, 1 - открыто
- *  around: число мин-соседей
- *  flagged: 0 - флага нет, 1 - флаг стоит
+ * Sector:
+ *  status: 0 - empty, 1 - mine.
+ *  opened: 0 - closed, 1 - opened.
+ *  around: number of mines around the sector.
+ *  flagged: 0 - not flagged, 1 - flagged.
  */
 
 /**
- * Элемент игрового поля.
+ * Node of the game field.
  */
 let node_field = document.getElementById('field')
 /**
- * Элемент блокировщика поля при окончании иры.
+ * Node of the game field blocker.
  */
 let node_fieldBlocker = document.getElementById('fieldBlocker')
 /**
- * Количество клеток по горизонтали. Задается в функции newGame().
+ * Number of columns. Set within newGame().
  */
 let fieldWidth
 /**
- * Количество клеток по вертикали. Задается в функции newGame().
+ * Number of rows. Set within newGame().
  */
 let fieldHeight
 /**
- * Количество мин на поле. Задается в функции newGame().
+ * Number of mines in the game. Set within newGame().
  */
 let minesTotal
 /**
- * Оставшееся количество мин (при пометке флажками).
+ * Mines lost on the field (not flagged).
  */
 let minesLast
 
 /**
- * Элемент счетчика мин.
+ * Node of mines counter.
  */
 let node_counter = document.getElementById('conter')
 /**
- * Элемент таймера.
+ * Node of timer.
  */
 let node_timer = document.getElementById('timer')
 /**
- * Интвал для счетчика времени.
+ * An interval for the timer.
  */
 let timerInterval
 /**
- * Время с начала хода.
+ * Time passed since the first move.
  */
 let timer
 /**
- * Показатель первого хода, чтобы включать счетчик времени.
+ * First move marker for running timer.
  */
 let firstMove
 
 
 /**
- * Массив секторов с их статусами и данными.
+ * Array of all the sectors.
+ * Goes like sectors[x][y].status.
+ * Each sector has:
+ *  status: 0 - empty, 1 - mine.
+ *  opened: 0 - closed, 1 - opened.
+ *  around: number of mines around the sector.
+ *  flagged: 0 - not flagged, 1 - flagged.
  */
 let sectors = []
 
 /**
- * Начинает новую игру.
+ * Starts a new game.
  */
 function newGame() {
     fieldWidth = 18
@@ -84,33 +90,33 @@ function endGame() {
 }
 
 /**
- * Проходит по полю и вызывает коллбэк на каждом секторе.
- * @param {function} callback Коллбэк для каждого сектора.
+ * Runs the whole field and calls the callback.
+ * @param {function} callback A callback for each sector.
  */
 function runField(callback) {
     for (let i = 0; i < fieldHeight; i++) for (let j = 0; j < fieldWidth; j++) callback(i, j)
 }
 
 /**
- * Создает новый чистый сектор по заданной координате.
- * @param {number} i Координата X.
- * @param {number} j Координата Y. 
+ * Creates a new virgin sector at the given coordinates.
+ * @param {number} x Coordinate X.
+ * @param {number} y Coordinate Y. 
  */
-function createSector(i,j) {
+function createSector(x, y) {
     let newSectorNode = document.createElement('div')
     newSectorNode.classList.add('field__sector')
     newSectorNode.classList.add('field__sector-closed')
-    newSectorNode.id = `${i}-${j}`
-    newSectorNode.addEventListener('click', event => dig(i, j))
+    newSectorNode.id = `${x}-${y}`
+    newSectorNode.addEventListener('click', event => dig(x, y))
 
-    sectors[i] = sectors[i] ? sectors[i] : []
-    sectors[i][j] = {status: 0, opened: 0, around: 0, flagged: 0}
+    sectors[x] = sectors[x] ? sectors[x] : []
+    sectors[x][y] = {status: 0, opened: 0, around: 0, flagged: 0}
 
     node_field.appendChild(newSectorNode)
 }
 
 /**
- * Создает мину в случайном месте поля.
+ * Creates a mine at a random sector.
  */
 function createMine() {
     let x = Math.floor(Math.random() * (fieldHeight - 1))
@@ -122,15 +128,15 @@ function createMine() {
     sectors[x][y].around = 0
     document.getElementById(`${x}-${y}`).className='field__sector field__sector-closed'
 
-    // Увеличиваем счетчик соседских мин для секторов вокруг.
+    // Run around the sector and increase the number of neighbour mines.
     for (let i = x - 1; i < x + 2; i++) for (let j = y - 1; j < y + 2; j++) {
         if (sectors[i] && sectors[i][j] && !sectors[i][j].status) sectors[i][j].around++
     }
 }
 
 /**
- * Нажатие по сектору.
- * @param {string} event Событие нажатия сектора.
+ * Click on a sector.
+ * @param {string} event Event of the click.
  */
 function dig(x, y) {
     sector = document.getElementById(`${x}-${y}`)
@@ -153,9 +159,9 @@ function dig(x, y) {
 }
 
 /**
- * Проверяет все соседние секторы вокруг заданных координат, если не бомба и не открыто - открывает.
- * @param {number} x Координата X.
- * @param {number} y Координата Y.
+ * Runs around the sector and opens empty ones.
+ * @param {number} x Coordinate X.
+ * @param {number} y Coordinate Y.
  */
 function runAround(x, y) {
     x = parseInt(x)
@@ -168,8 +174,8 @@ function runAround(x, y) {
 }
 
 /**
- * Нажатие по сектору.
- * @param {string} event Событие нажатия сектора.
+ * Right click on sector.
+ * @param {string} event Event of the right click.
  */
 function checkFlag(event) {
     let x = event.target.id.split('-')[0]
@@ -187,12 +193,11 @@ function checkFlag(event) {
         sectors[x][y].flagged = 1
         event.target.classList.add('field__sector-flag')
         node_counter.innerHTML = --minesLost
-        // if (minesLost == 0) checkWin()
     }
 }
 
 /**
- * Проверяет ход на завершение игры.
+ * Checks if the game is won already.
  */
 function checkWin() {
     for (let i = 0; i < fieldHeight; i++) for (let j = 0; j < fieldWidth; j++) {
@@ -204,8 +209,8 @@ function checkWin() {
 }
 
 /**
- * Открывает все мины на поле.
- * @param {Element} sector Сектор для обработки.
+ * Blows a given mine on the field.
+ * @param {Element} sector Sector with the mine.
  */
 function showMine(sector) {
     sector.classList.add('field__sector-mine')
@@ -213,9 +218,9 @@ function showMine(sector) {
 }
 
 /**
- * Заканчивает игру проигрышем.
- * @param {number} x Координата X взорванного сектора.
- * @param {number} y Координата Y взорванного сектора.
+ * Ends game with Losing the game.
+ * @param {number} x Coordinate X of the last blown up sector.
+ * @param {number} y Coordinate Y of the last blown up sector.
  */
 async function loseGame(x, y) {
     document.getElementById(`${x}-${y}`).classList.add('field__sector-mine')
@@ -229,6 +234,9 @@ async function loseGame(x, y) {
         if (sectors[i][j].status) mines.push(document.getElementById(`${i}-${j}`))
     }
 
+    /**
+     * Runs through all mines and blows them up.
+     */
     function showMines() {
         if (currentMine >= minesTotal) return
         setTimeout(() => {
@@ -241,8 +249,8 @@ async function loseGame(x, y) {
 }
 
 /**
- * Помечает пустые поля цветками.
- * @param {Element} sector Сектор для обработки.
+ * Marks a given sector with a flower.
+ * @param {Element} sector Sector to mark with a flower.
  */
 function growFlower(sector) {
     sector.classList.add('field__sector-flower')
@@ -261,6 +269,10 @@ function winGame() {
     for (let i = 0; i < fieldHeight; i++) for (let j = 0; j < fieldWidth; j++) {
         if (!sectors[i][j].status && !sectors[i][j].around) flowers.push(document.getElementById(`${i}-${j}`))
     }
+
+    /**
+     * Runs through all empty sectors and marks them with flowers.
+     */
     function growFlowers() {
         if (currentFlower >= flowers.length) return
         setTimeout(() => {
