@@ -81,7 +81,7 @@ function newGame() {
 
     for (let i = 0; i < minesTotal; i++) createMine()
     
-    console.log('%cИгра начата.', 'color: green;')
+    console.log('%cNew game started.', 'color: green;')
 }
 
 
@@ -224,7 +224,7 @@ function showMine(sector) {
  */
 async function loseGame(x, y) {
     document.getElementById(`${x}-${y}`).classList.add('field__sector-mine')
-    console.log('Игра проиграна!')
+    console.log('You lost..')
     clearInterval(timerInterval)
     node_fieldBlocker.classList.remove('hidden')
     let mines = []
@@ -260,7 +260,7 @@ function growFlower(sector) {
  * Заканчивает игру выигрышем.
  */
 function winGame() {
-    console.log('Игра выиграна!')
+    console.log('You won!')
     clearInterval(timerInterval)
     node_fieldBlocker.classList.remove('hidden')
     let flowers = []
