@@ -175,3 +175,25 @@
     background: #e2e2e2 url(../images/flag.png) center no-repeat;
     background-size: 30px 30px;
 }
+
+.field__sector-mine, .field__sector-mine:hover {
+    background: #e2e2e2 url(../images/mine.png) center no-repeat;
+    background-size: 30px 30px;
+    animation: blow .5s;
+}
+
+@keyframes blow {
+    from { background-size: 1px 1px; background-color: #f2c2c2;}
+    to { background-size: 30px 30px; background-color: #e2e2e2;}
+}
+
+.field__sector-flower, .field__sector-flower:hover {
+    background: #f9f9f9 url(../images/flower.png) center no-repeat;
+    background-size: 30px 30px;
+    animation: grow .5s;
+}
+
+@keyframes grow {
+    from { background-size: 1px 1px; background-color: #c2f2c2;}
+    to { background-size: 30px 30px; background-color: #f9f9f9;}
+}

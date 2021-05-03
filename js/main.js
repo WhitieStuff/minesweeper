@@ -136,7 +136,7 @@ function dig(x, y) {
     sector = document.getElementById(`${x}-${y}`)
     if (sectors[x][y].opened) return
     if (sectors[x][y].flagged) return
-    if (sectors[x][y].status) return loseGame()
+    if (sectors[x][y].status) return loseGame(x, y)
 
     if (firstMove) timerInterval = setInterval(() => {node_timer.innerHTML = ++timer}, 1000)
     firstMove = false
@@ -149,10 +149,14 @@ function dig(x, y) {
     } else {
         runAround(x, y)
     }
-
-    //TODO: Игра заканчивается, когда открыты все секторы, кроме мин.
+    checkWin()
 }
 
+/**
+ * Проверяет все соседние секторы вокруг заданных координат, если не бомба и не открыто - открывает.
+ * @param {number} x Координата X.
+ * @param {number} y Координата Y.
+ */
 function runAround(x, y) {
     x = parseInt(x)
     y = parseInt(y)
@@ -187,14 +191,85 @@ function checkFlag(event) {
     }
 }
 
+/**
+ * Проверяет ход на завершение игры.
+ */
 function checkWin() {
-
+    for (let i = 0; i < fieldHeight; i++) for (let j = 0; j < fieldWidth; j++) {
+        sector = sectors[i][j]
+        if (!sector.opened && !sector.flagged && !sector.status) return
+        if (sector.flagged && !sector.status) return
+    }
+    winGame()
 }
 
-function loseGame() {
+/**
+ * Открывает все мины на поле.
+ * @param {Element} sector Сектор для обработки.
+ */
+function showMine(sector) {
+    sector.classList.add('field__sector-mine')
+    sector.classList.remove('field__sector-closed')
+}
+
+/**
+ * Заканчивает игру проигрышем.
+ * @param {number} x Координата X взорванного сектора.
+ * @param {number} y Координата Y взорванного сектора.
+ */
+async function loseGame(x, y) {
+    document.getElementById(`${x}-${y}`).classList.add('field__sector-mine')
     console.log('Игра проиграна!')
     clearInterval(timerInterval)
     node_fieldBlocker.classList.remove('hidden')
+    let mines = []
+    let currentMine = 0
+
+    for (let i = 0; i < fieldHeight; i++) for (let j = 0; j < fieldWidth; j++) {
+        if (sectors[i][j].status) mines.push(document.getElementById(`${i}-${j}`))
+    }
+
+    function showMines() {
+        if (currentMine >= minesTotal) return
+        setTimeout(() => {
+            showMine(mines[currentMine++])
+            showMines()
+        }, 50)
+    }
+
+    showMines()
+}
+
+/**
+ * Помечает пустые поля цветками.
+ * @param {Element} sector Сектор для обработки.
+ */
+function growFlower(sector) {
+    sector.classList.add('field__sector-flower')
+}
+
+/**
+ * Заканчивает игру выигрышем.
+ */
+function winGame() {
+    console.log('Игра выиграна!')
+    clearInterval(timerInterval)
+    node_fieldBlocker.classList.remove('hidden')
+    let flowers = []
+    let currentFlower = 0
+
+    for (let i = 0; i < fieldHeight; i++) for (let j = 0; j < fieldWidth; j++) {
+        if (!sectors[i][j].status && !sectors[i][j].around) flowers.push(document.getElementById(`${i}-${j}`))
+    }
+    function growFlowers() {
+        if (currentFlower >= flowers.length) return
+        setTimeout(() => {
+            growFlower(flowers[currentFlower++])
+            growFlowers()
+        }, 50)
+    }
+
+    growFlowers()
 }
 
 window.oncontextmenu = function (event) {
