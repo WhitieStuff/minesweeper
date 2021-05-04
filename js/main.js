@@ -192,7 +192,7 @@ function checkFlag(event) {
     let y = event.target.id.split('-')[1]
     if (sectors[x][y].opened) return
 
-    if (firstMove) interval = setInterval(() => {node_timer.innerHTML = ++timer}, 1000)
+    if (firstMove) timerInterval = setInterval(() => {node_timer.innerHTML = ++timer}, 1000)
     firstMove = false
 
     if (sectors[x][y].flagged) {
@@ -297,8 +297,8 @@ function winGame() {
 window.oncontextmenu = function (event) {
     if (event.target.classList.contains('field__sector')) {
         checkFlag(event)
-        return false    
     }
+    return false    
 }
 
 newGame()
