@@ -71,9 +71,11 @@ let modes = {
 }
 
 let node_modes = document.getElementById('modes')
+node_modes.value = localStorage.getItem('mode')
 let mode = node_modes.value
 node_modes.addEventListener('change', event => {
     mode = node_modes.value
+    localStorage.setItem('mode', mode)
     newGame()
 })
 

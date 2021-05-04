@@ -105,25 +105,30 @@
 
 .field {
     margin: auto;
-    border-top: 1px solid #d5d5d5;
-    border-left: 1px solid #d5d5d5;
-    font-weight: bold;
     text-align: center;
+    color: #0173c7;
+    font-weight: normal;
 }
 
 .field-easy {
     width: 501px;
     height: 501px;
+    border-top: 1px solid #d5d5d5;
+    border-left: 1px solid #d5d5d5;
 }
 
 .field-medium {
     width: 721px;
     height: 561px;
+    border-top: 1px solid #d5d5d5;
+    border-left: 1px solid #d5d5d5;
 }
 
 .field-hard {
     width: 673px;
     height: 561px;
+    border-top: 1px solid #d5d5d5;
+    border-left: 1px solid #d5d5d5;
 }
 
 .field-blocker {
@@ -155,6 +160,7 @@
     display: block;
     float: left;
     background: #f9f9f9;
+    font-weight: bold;
     border-right: 1px solid #d5d5d5;
     border-bottom: 1px solid #d5d5d5;
 }
