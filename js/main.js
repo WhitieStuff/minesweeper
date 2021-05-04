@@ -103,9 +103,14 @@ function newGame() {
     node_field.innerHTML = ''
     node_counter.innerHTML = minesLost = minesTotal  = modes[mode].minesTotal
     node_timer.innerHTML = timer = 0
+
     firstMove = true
+
     node_fieldBlocker.className = `field-blocker field-blocker-${mode}`
     node_fieldBlocker.classList.add('hidden')
+
+    sectors = []
+
     clearInterval(timerInterval)
 
     runField(createSector)
@@ -318,7 +323,7 @@ function winGame() {
         setTimeout(() => {
             growFlower(flowers[currentFlower++])
             growFlowers()
-        }, 50)
+        }, 30)
     }
 
     growFlowers()
