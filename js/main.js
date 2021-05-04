@@ -71,7 +71,7 @@ let modes = {
 }
 
 let node_modes = document.getElementById('modes')
-node_modes.value = localStorage.getItem('mode')
+node_modes.value = localStorage.getItem('mode') ? localStorage.getItem('mode') : 'medium'
 let mode = node_modes.value
 node_modes.addEventListener('change', event => {
     mode = node_modes.value
