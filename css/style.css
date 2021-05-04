@@ -89,21 +89,41 @@
     background-size: contain;
 }
 
+.header__modes {
+    display: block;
+    margin: auto;
+    margin-top: 5px;
+    border: none;
+    color: #0173c7;
+    font-size: 20px;
+}
+
 .main {
     position: relative;
-    margin-top: 40px;
+    margin-top: 15px;
 }
 
 .field {
     margin: auto;
-    width: 721px;
-    height: 561px;
     border-top: 1px solid #d5d5d5;
     border-left: 1px solid #d5d5d5;
-    font-size: 25px;
     font-weight: bold;
-    line-height: 40px;
     text-align: center;
+}
+
+.field-easy {
+    width: 501px;
+    height: 501px;
+}
+
+.field-medium {
+    width: 721px;
+    height: 561px;
+}
+
+.field-hard {
+    width: 673px;
+    height: 561px;
 }
 
 .field-blocker {
@@ -112,7 +132,18 @@
     top: 0;
     left: 50%;
     transform: translate(-50%);
+}
+
+.field-blocker-easy {
+    width: 501px;
+    height: 501px;
+}
+.field-blocker-medium {
     width: 721px;
+    height: 561px;
+}
+.field-blocker-hard {
+    width: 673px;
     height: 561px;
 }
 
@@ -123,11 +154,27 @@
 .field__sector {
     display: block;
     float: left;
-    width: 40px;
-    height: 40px;
     background: #f9f9f9;
     border-right: 1px solid #d5d5d5;
     border-bottom: 1px solid #d5d5d5;
+}
+
+.field__sector-easy {
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+}
+
+.field__sector-medium {
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+}
+
+.field__sector-hard {
+    width: 28px;
+    height: 28px;
+    font-size: 19px;
 }
 
 .field__sector-closed {
@@ -171,29 +218,67 @@
     color: #7D8B98;
 }
 
-.field__sector-flag, .field__sector-flag:hover {
+.field__sector-flag-easy, .field__sector-flag-easy:hover {
+    background: #e2e2e2 url(../images/flag.png) center no-repeat;
+    background-size: 40px 40px;
+}
+.field__sector-flag-medium, .field__sector-flag-medium:hover {
     background: #e2e2e2 url(../images/flag.png) center no-repeat;
     background-size: 30px 30px;
 }
+.field__sector-flag-hard, .field__sector-flag-hard:hover {
+    background: #e2e2e2 url(../images/flag.png) center no-repeat;
+    background-size: 18px 18px;
+}
 
-.field__sector-mine, .field__sector-mine:hover {
+.field__sector-mine-easy, .field__sector-mine-easy:hover {
+    background: #e2e2e2 url(../images/mine.png) center no-repeat;
+    background-size: 40px 40px;
+    animation: blow-easy .5s;
+}
+.field__sector-mine-medium, .field__sector-mine-medium:hover {
     background: #e2e2e2 url(../images/mine.png) center no-repeat;
     background-size: 30px 30px;
-    animation: blow .5s;
+    animation: blow-medium .5s;
+}
+.field__sector-mine-hard, .field__sector-mine-hard:hover {
+    background: #e2e2e2 url(../images/mine.png) center no-repeat;
+    background-size: 18px 18px;
+    animation: blow-hard .5s;
 }
 
-@keyframes blow {
+@keyframes blow-easy {
+    from { background-size: 1px 1px; background-color: #f2c2c2;}
+    to { background-size: 40px 40px; background-color: #e2e2e2;}
+}@keyframes blow-medium {
     from { background-size: 1px 1px; background-color: #f2c2c2;}
     to { background-size: 30px 30px; background-color: #e2e2e2;}
+}@keyframes blow-hard {
+    from { background-size: 1px 1px; background-color: #f2c2c2;}
+    to { background-size: 18px 18px; background-color: #e2e2e2;}
 }
 
-.field__sector-flower, .field__sector-flower:hover {
+.field__sector-flower-easy, .field__sector-flower-easy:hover {
+    background: #f9f9f9 url(../images/flower.png) center no-repeat;
+    background-size: 40px 40px;
+    animation: grow-easy .5s;
+}.field__sector-flower-medium, .field__sector-flower-medium:hover {
     background: #f9f9f9 url(../images/flower.png) center no-repeat;
     background-size: 30px 30px;
-    animation: grow .5s;
+    animation: grow-medium .5s;
+}.field__sector-flower-hard, .field__sector-flower-hard:hover {
+    background: #f9f9f9 url(../images/flower.png) center no-repeat;
+    background-size: 18px 18px;
+    animation: grow-hard .5s;
 }
 
-@keyframes grow {
+@keyframes grow-easy {
+    from { background-size: 1px 1px; background-color: #c2f2c2;}
+    to { background-size: 40px 40px; background-color: #f9f9f9;}
+}@keyframes grow-medium {
     from { background-size: 1px 1px; background-color: #c2f2c2;}
     to { background-size: 30px 30px; background-color: #f9f9f9;}
+}@keyframes grow-hard {
+    from { background-size: 1px 1px; background-color: #c2f2c2;}
+    to { background-size: 18px 18px; background-color: #f9f9f9;}
 }

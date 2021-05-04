@@ -52,6 +52,33 @@ let timer
  */
 let firstMove
 
+let modes = {
+    easy: {
+        fieldWidth: 10,
+        fieldHeight: 10,
+        minesTotal: 10
+    },
+    medium: {
+        fieldWidth: 18,
+        fieldHeight: 14,
+        minesTotal: 40
+    },
+    hard: {
+        fieldWidth: 24,
+        fieldHeight: 20,
+        minesTotal: 99
+    }
+}
+
+let node_modes = document.getElementById('modes')
+let mode = node_modes.value
+node_modes.addEventListener('change', event => {
+    mode = node_modes.value
+    newGame()
+})
+
+
+
 
 /**
  * Array of all the sectors.
@@ -68,12 +95,16 @@ let sectors = []
  * Starts a new game.
  */
 function newGame() {
-    fieldWidth = 18
-    fieldHeight = 14
+    node_field.className = 'field'
+    node_field.classList.add(`field-${mode}`)
+
+    fieldWidth = modes[mode].fieldWidth
+    fieldHeight = modes[mode].fieldHeight
     node_field.innerHTML = ''
-    node_counter.innerHTML = minesLost = minesTotal  = 40
+    node_counter.innerHTML = minesLost = minesTotal  = modes[mode].minesTotal
     node_timer.innerHTML = timer = 0
     firstMove = true
+    node_fieldBlocker.className = `field-blocker field-blocker-${mode}`
     node_fieldBlocker.classList.add('hidden')
     clearInterval(timerInterval)
 
@@ -104,8 +135,7 @@ function runField(callback) {
  */
 function createSector(x, y) {
     let newSectorNode = document.createElement('div')
-    newSectorNode.classList.add('field__sector')
-    newSectorNode.classList.add('field__sector-closed')
+    newSectorNode.className = `field__sector field__sector-${mode} field__sector-closed`
     newSectorNode.id = `${x}-${y}`
     newSectorNode.addEventListener('click', event => dig(x, y))
 
@@ -126,7 +156,7 @@ function createMine() {
 
     sectors[x][y].status = 1
     sectors[x][y].around = 0
-    document.getElementById(`${x}-${y}`).className='field__sector field__sector-closed'
+    document.getElementById(`${x}-${y}`).className = `field__sector field__sector-${mode} field__sector-closed`
 
     // Run around the sector and increase the number of neighbour mines.
     for (let i = x - 1; i < x + 2; i++) for (let j = y - 1; j < y + 2; j++) {
@@ -197,11 +227,11 @@ function checkFlag(event) {
 
     if (sectors[x][y].flagged) {
         sectors[x][y].flagged = 0
-        event.target.classList.remove('field__sector-flag')
+        event.target.classList.remove(`field__sector-flag-${mode}`)
         node_counter.innerHTML = ++minesLost
     } else {
         sectors[x][y].flagged = 1
-        event.target.classList.add('field__sector-flag')
+        event.target.classList.add(`field__sector-flag-${mode}`)
         node_counter.innerHTML = --minesLost
     }
 }
@@ -223,7 +253,7 @@ function checkWin() {
  * @param {Element} sector Sector with the mine.
  */
 function showMine(sector) {
-    sector.classList.add('field__sector-mine')
+    sector.classList.add(`field__sector-mine-${mode}`)
     sector.classList.remove('field__sector-closed')
 }
 
@@ -233,7 +263,7 @@ function showMine(sector) {
  * @param {number} y Coordinate Y of the last blown up sector.
  */
 async function loseGame(x, y) {
-    document.getElementById(`${x}-${y}`).classList.add('field__sector-mine')
+    document.getElementById(`${x}-${y}`).classList.add(`field__sector-mine-${mode}`)
     console.log('You lost..')
     clearInterval(timerInterval)
     node_fieldBlocker.classList.remove('hidden')
@@ -263,7 +293,7 @@ async function loseGame(x, y) {
  * @param {Element} sector Sector to mark with a flower.
  */
 function growFlower(sector) {
-    sector.classList.add('field__sector-flower')
+    sector.classList.add(`field__sector-flower-${mode}`)
 }
 
 /**
