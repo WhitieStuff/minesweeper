@@ -142,7 +142,17 @@ function dig(x, y) {
     sector = document.getElementById(`${x}-${y}`)
     if (sectors[x][y].opened) return
     if (sectors[x][y].flagged) return
-    if (sectors[x][y].status) return loseGame(x, y)
+    if (sectors[x][y].status) {
+        if (!firstMove) return loseGame(x, y)
+        newGame()
+        return dig(x, y)
+    }
+    if (sectors[x][y].around) {
+        if (firstMove) {
+            newGame()
+            return dig(x, y)
+        }
+    }
 
     if (firstMove) timerInterval = setInterval(() => {node_timer.innerHTML = ++timer}, 1000)
     firstMove = false
@@ -285,8 +295,10 @@ function winGame() {
 }
 
 window.oncontextmenu = function (event) {
-    if (event.target.classList.contains('field__sector')) checkFlag(event)
-    return false
+    if (event.target.classList.contains('field__sector')) {
+        checkFlag(event)
+        return false    
+    }
 }
 
 newGame()
