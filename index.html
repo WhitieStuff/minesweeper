@@ -13,15 +13,19 @@
         <div class="header__display header__timer" id="timer">0</div>
         <button class="header__button" id="newGame" onclick="newGame()">New Game</button>
         <div class="header__display header__counter" id="conter">00</div>
-        <select id="modes" class="header__modes">
-            <option value="easy">Easy</option>
-            <option selected value="medium">Medium</option>
-            <option value="hard">Hard</option>
+        <select id="mode" class="header__mode">
+            <option class="mode__select" value="easy">Easy</option>
+            <option class="mode__select" selected value="medium">Medium</option>
+            <option class="mode__select" value="hard">Hard</option>
           </select>
     </header>
     <main class="main" id="main">
         <div class="field" id="field">Что-то пошло не так.. Проверьте JavaScript.</div>
         <div class="field-blocker hidden" id="fieldBlocker"></div>
+        <div class="info" id="info">
+            <div class="best-time" id="best-time">0</div>
+            <div class="games-won" id="games-won">0</div>
+        </div>
     </main>
     <script src="./js/main.js"></script>
 </body>

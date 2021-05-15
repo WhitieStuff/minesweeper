@@ -21,11 +21,13 @@
 }
 
 .header {
+    position: relative;
     margin: auto;
-    margin-top: 50px;
+    margin-top: 30px;
     width: max-content;
 }
-.header__button{
+
+.header__button {
     display: inline-block;
     font-family: OpenSansCondensed;
     padding: 10px 20px;
@@ -49,7 +51,7 @@
     margin: 0 20px;
     padding: 10px;
     color: #0173c7;
-    font-size: 30px;
+    font-size: 25px;
     height: 67px;
 }
 
@@ -60,9 +62,9 @@
 .header__timer::after {
     content: " ";
     display: inline-block;
-    transform: translateY(6px);
-    width: 33px;
-    height: 33px;
+    transform: translateY(4px);
+    width: 25px;
+    height: 25px;
     margin-left: 5px;
     background: url(../images/timer-blue.png);
     background-size: contain;
@@ -74,27 +76,47 @@
 
 .header__counter::before {
     content: " ";
-    transform: translateY(5px);
+    transform: translateY(3px);
     display: inline-block;
-    width: 30px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
     margin-right: 5px;
     background: url(../images/flag-blue.png);
     background-size: contain;
 }
 
-.header__modes {
+.header__mode {
     display: block;
     margin: auto;
-    margin-top: 5px;
+    padding: 0 5px;
     border: none;
     color: #0173c7;
-    font-size: 20px;
+    font-size: 18px;
+    text-align-last: center;
 }
 
 .main {
     position: relative;
-    margin-top: 15px;
+    margin-top: 10px;
+}
+
+.info {
+    margin: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    color: #0173c7;
+    font-size: 18px;
+    z-index: -10;
+}
+
+.best-time::before {
+    content: "Best time: ";
+}
+
+.games-won::before {
+    content: "Games won: ";
 }
 
 .field {

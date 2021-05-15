@@ -6,50 +6,37 @@
  *  flagged: 0 - not flagged, 1 - flagged.
  */
 
-/**
- * Node of the game field.
- */
+/** Node of the game field. */
 let node_field = document.getElementById('field')
-/**
- * Node of the game field blocker.
- */
+/** Node of the game field blocker. */
 let node_fieldBlocker = document.getElementById('fieldBlocker')
-/**
- * Number of columns. Set within newGame().
- */
+/** Number of columns. Set within newGame(). */
 let fieldWidth
-/**
- * Number of rows. Set within newGame().
- */
+/** Number of rows. Set within newGame(). */
 let fieldHeight
-/**
- * Number of mines in the game. Set within newGame().
- */
+/** Number of mines in the game. Set within newGame(). */
 let minesTotal
-/**
- * Mines lost on the field (not flagged).
- */
+/** Mines lost on the field (not flagged). */
 let minesLast
-
-/**
- * Node of mines counter.
- */
+/** Current best time. */
+let bestTime
+/** Total games won. */
+let gamesWon
+/** Node of the info line. */
+let node_info = document.getElementById('info')
+/** Node of the best-time. */
+let node_bestTime = document.getElementById('best-time')
+/** Node of the games-won. */
+let node_gamesWon = document.getElementById('games-won')
+/** Node of mines counter. */
 let node_counter = document.getElementById('conter')
-/**
- * Node of timer.
- */
+/** Node of timer. */
 let node_timer = document.getElementById('timer')
-/**
- * An interval for the timer.
- */
+/** An interval for the timer. */
 let timerInterval
-/**
- * Time passed since the first move.
- */
+/** Time passed since the first move. */
 let timer
-/**
- * First move marker for running timer.
- */
+/** First move marker for running timer. */
 let firstMove
 
 let modes = {
@@ -70,12 +57,12 @@ let modes = {
     }
 }
 
-let node_modes = document.getElementById('modes')
-node_modes.value = localStorage.getItem('mode') ? localStorage.getItem('mode') : 'medium'
+let node_modes = document.getElementById('mode')
+node_modes.value = localStorage.getItem('minesweeper-mode') || 'medium'
 let mode = node_modes.value
 node_modes.addEventListener('change', event => {
     mode = node_modes.value
-    localStorage.setItem('mode', mode)
+    localStorage.setItem('minesweeper-mode', mode)
     newGame()
 })
 
@@ -105,10 +92,13 @@ function newGame() {
     node_field.innerHTML = ''
     node_counter.innerHTML = minesLost = minesTotal  = modes[mode].minesTotal
     node_timer.innerHTML = timer = 0
+    node_gamesWon.innerHTML = gamesWon = parseInt(localStorage.getItem(`minesweeper-games-won-${node_modes.value}`)) || 0
+    node_bestTime.innerHTML = bestTime = parseInt(localStorage.getItem(`minesweeper-best-time-${node_modes.value}`)) || 0
 
     firstMove = true
 
     node_fieldBlocker.className = `field-blocker field-blocker-${mode}`
+    node_info.style.width = `${node_fieldBlocker.offsetWidth}px`
     node_fieldBlocker.classList.add('hidden')
 
     sectors = []
@@ -327,6 +317,13 @@ function winGame() {
             growFlowers()
         }, 30)
     }
+
+    bestTime = !bestTime || bestTime > timer ? timer : bestTime
+
+    localStorage.setItem(`minesweeper-games-won-${node_modes.value}`, ++gamesWon)
+    localStorage.setItem(`minesweeper-best-time-${node_modes.value}`, bestTime)
+    node_gamesWon.innerHTML = gamesWon
+    node_bestTime.innerHTML = bestTime
 
     growFlowers()
 }
