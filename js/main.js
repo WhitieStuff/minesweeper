@@ -304,7 +304,7 @@ function winGame() {
     let currentFlower = 0
 
     for (let i = 0; i < fieldHeight; i++) for (let j = 0; j < fieldWidth; j++) {
-        if (!sectors[i][j].status && !sectors[i][j].around) flowers.push(document.getElementById(`${i}-${j}`))
+        if (sectors[i][j].status) flowers.push(document.getElementById(`${i}-${j}`))
     }
 
     /**
