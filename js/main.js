@@ -335,4 +335,13 @@ window.oncontextmenu = function (event) {
     return false    
 }
 
+/** Images that should be loaded before the first time the class added. */
+let images = []
+images[0] = new Image()
+images[0].src = (`./images/flag.png`)
+images[1] = new Image()
+images[1].src = (`./images/mine.png`)
+images[2] = new Image()
+images[2].src = (`./images/flower.png`)
+
 newGame()
